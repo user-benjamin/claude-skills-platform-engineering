@@ -40,8 +40,8 @@ agents/                  ← Claude API agents (engine for complex skills)
 ### All skills (recommended)
 
 ```bash
-git clone https://github.com/user-benjamin/platform-engineer-skills
-cd platform-engineer-skills
+git clone git@github.com:user-benjamin/claude-skills-platform-engineering.git
+cd claude-skills-platform-engineering 
 
 # Install skills and shared templates globally
 cp -r .claude/skills/* ~/.claude/skills/
