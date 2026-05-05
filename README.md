@@ -13,6 +13,7 @@ A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) pur
 | Runbook Writer | `/write-runbook` | Reviews the current debugging/incident session and distills it into a reusable runbook |
 | PR Description | `/pr-description` | Combines live `git diff` with conversation context to write a PR description. Uses repo template if one exists, otherwise falls back to standard summary/problem/acceptance criteria/testing structure. |
 | Project Proposal | `/project-proposal` | Generates a structured project proposal with executive summary, goals, metrics, timeline, risks, and stakeholders |
+| Presentation Maker | `/make-presentation` | Creates a complete Slidev presentation from a topic outline — slides, speaker script, diagrams, real code examples — ready to `npm run dev` |
 
 ## Architecture
 
@@ -24,6 +25,7 @@ A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) pur
     gen-helm-chart/
     incident-runbook/
     pr-description/
+    make-presentation/
 
 agents/                  ← Claude API agents (engine for complex skills)
     terraform_reviewer.py
@@ -72,6 +74,7 @@ Once installed, invoke any skill from within Claude Code:
 /gen-helm-chart "a nodejs api with HPA, PDB, and external secret"
 /incident-runbook "payments service p99 latency spike at 3pm"
 /pr-description
+/make-presentation "infra prio and planning — k8s, waf status, neo migration, roadmap"
 ```
 
 ## Skill Reference
