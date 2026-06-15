@@ -6,8 +6,8 @@ additions to the wishlist. Here's how to do it well.
 ## Getting Started
 
 ```bash
-git clone https://github.com/user-benjamin/platform-engineer-skills
-cd platform-engineer-skills
+git clone https://github.com/user-benjamin/claude-skills-platform-engineering
+cd claude-skills-platform-engineering
 git checkout -b feat/your-skill-name
 ```
 
