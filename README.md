@@ -14,6 +14,7 @@ A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) pur
 | PR Description | `/pr-description` | Combines live `git diff` with conversation context to write a PR description. Uses repo template if one exists, otherwise falls back to standard summary/problem/acceptance criteria/testing structure. |
 | Project Proposal | `/project-proposal` | Generates a structured project proposal with executive summary, goals, metrics, timeline, risks, and stakeholders |
 | Presentation Maker | `/make-presentation` | Creates a complete Slidev presentation from a topic outline — slides, speaker script, diagrams, real code examples — ready to `npm run dev` |
+| Dashboard Generator | `/gen-dashboard` | Generates a Grafana dashboard (RED metrics + K8s resource panels) for a service, then opens it in your logged-in Grafana and tunes it against the live render. First browser-driven skill — needs the Claude in Chrome MCP for the visual check. |
 
 ## Architecture
 
@@ -36,6 +37,8 @@ agents/                  ← Claude API agents (engine for complex skills)
 **Simple skills** use live shell injection (`` !`command` ``) and `$ARGUMENTS` — no dependencies, just Claude.
 
 **Complex skills** shell out to `agents/` Python scripts that call the Claude API directly for structured, multi-step output.
+
+**Browser-driven skills** drive a real Chrome tab (via the Claude in Chrome MCP) so Claude can *see* a rendered UI and tune it with you — e.g. `gen-dashboard` checking a Grafana render. These need the browser extension + MCP connected and declare their tools in `allowed-tools`. See [`docs/browser-driven-skills.md`](docs/browser-driven-skills.md).
 
 ## Installation
 

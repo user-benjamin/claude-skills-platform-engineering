@@ -39,8 +39,8 @@ Given a description of a service and its dependencies, generate a `NetworkPolicy
 
 ## Observability
 
-**`/gen-dashboard`**
-Generate a Grafana dashboard JSON from a service description. Includes RED metrics (Rate, Errors, Duration) and K8s resource panels.
+> `/gen-dashboard` — ✅ built (see the root README). Generates the dashboard *and*
+> renders it in your browser to tune against live data.
 
 **`/alert-rules`**
 Generate Prometheus alerting rules for a given service type. Includes severity levels, annotations, and runbook links.
