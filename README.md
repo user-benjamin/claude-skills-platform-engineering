@@ -1,6 +1,6 @@
-# platform-engineer-skills
+# claude-skills-platform-engineering
 
-A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) purpose-built for platform engineers. The skills provide reusable workflows for infrastructure review, Kubernetes operations, observability, incident response, and engineering documentation.
+A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) purpose-built for platform engineers. Every skill today is a slash command driven by live shell injection — no dependencies, just Claude. A Claude API agent layer for complex multi-step workflows is planned; see [Roadmap](#roadmap).
 
 ## What's Inside
 
@@ -56,9 +56,12 @@ git clone git@github.com:user-benjamin/claude-skills-platform-engineering.git
 cd claude-skills-platform-engineering 
 
 # Install skills and shared templates globally
+mkdir -p ~/.claude/skills ~/.claude/templates
 cp -r .claude/skills/* ~/.claude/skills/
-cp -r templates ~/.claude/templates/
+cp -r templates/* ~/.claude/templates/
 ```
+
+> **Note:** copy the *contents* of `templates/` (`templates/*`) into `~/.claude/templates/`, not the directory itself. `cp -r templates ~/.claude/templates/` nests it as `~/.claude/templates/templates/` when the destination already exists, and the skills' `` !`cat ~/.claude/templates/<name>.md` `` lookups will silently come back empty.
 
 ### Single skill
 
@@ -91,7 +94,20 @@ Once installed, invoke any skill from within Claude Code:
 
 ## Skill Reference
 
-See [`docs/`](docs/) for detailed documentation on each skill, including example output and configuration options.
+Each skill has a `README.md` in its own directory (`.claude/skills/<skill>/README.md`) covering what it does, an example invocation, and example output.
+
+## Roadmap
+
+A planned `agents/` layer would let complex skills shell out to Python scripts that call the Claude API directly for structured, multi-step output, rather than relying on shell injection alone:
+
+```
+agents/                  ← Claude API agents (planned — not yet implemented)
+    terraform_reviewer.py
+    adr_writer.py
+    runbook_generator.py
+```
+
+This would add a dependency (`pip install anthropic` and an `ANTHROPIC_API_KEY`) for the skills that use it. Not yet built — proposals welcome in [`WISHLIST.md`](WISHLIST.md).
 
 ## Contributing
 
