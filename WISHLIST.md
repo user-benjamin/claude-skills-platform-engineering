@@ -5,6 +5,88 @@ Add your own ideas — no implementation required to add to this list.
 
 ---
 
+## External Skills and Integrations
+
+These are useful external projects and integration ideas to evaluate or adapt into
+native Claude Code skills. Prefer read-only workflows and explicit approval before
+allowing any agent to mutate AWS, Kubernetes, or GitHub state.
+
+### AWS and EKS
+
+**AWS Agent Toolkit for AWS** — <https://github.com/aws/agent-toolkit-for-aws>
+
+AWS-maintained skills, plugins, and MCP servers covering service selection, CDK,
+CloudFormation, containers, EKS, IAM, observability, billing, and AWS
+Documentation. Evaluate the AWS-specific guidance and identify reusable patterns
+for `/aws-review`, `/eks-triage`, and `/aws-docs`.
+
+**AWS APEX Skills** — <https://github.com/aws-samples/sample-apex-skills>
+
+Platform-engineering workflows for EKS, golden paths, Backstage, GitOps,
+progressive delivery, multi-tenancy, ACK/KRO, AI/ML platform paths, and DORA
+metrics. Strong candidate for a `/design-platform` or `/eks-platform-plan` skill.
+
+**Amazon EKS MCP Server** — <https://github.com/awslabs/mcp/tree/main/src/eks-mcp-server>
+
+Provides live EKS and Kubernetes context for resource inspection, logs, events,
+deployment troubleshooting, manifest generation, and cluster workflows. Evaluate
+as an optional read-only integration for `/explain-k8s-error` and `/k8s-debug`.
+
+**AWS MCP collection** — <https://github.com/awslabs/mcp>
+
+Includes AWS API and AWS Documentation MCP servers plus integrations for EKS,
+ECS, ECR/Finch, and other services. Investigate a guarded `/aws-investigate`
+workflow with account, region, and mutation boundaries.
+
+### Kubernetes
+
+**kubectl-ai** — <https://github.com/GoogleCloudPlatform/kubectl-ai/>
+
+Natural-language Kubernetes assistance with support for Bedrock, hosted models,
+and local models. Evaluate command-generation and evidence-gathering patterns,
+without granting autonomous destructive access.
+
+**kubectl MCP Server** — <https://github.com/rohitg00/kubectl-mcp-server/>
+
+Kubernetes MCP tools and packaged skills for core resources, networking, storage,
+deployments, operations, security, Helm, and troubleshooting. Compare its
+workflows with the existing `/explain-k8s-error` skill.
+
+**kagent** — <https://kagent.dev/>
+
+Kubernetes-native runtime for governed agents using CRDs, GitOps, RBAC, MCP,
+A2A, OpenTelemetry, and human-in-the-loop approvals. Consider a future skill for
+designing or reviewing an in-cluster agent platform.
+
+### Platform Engineering
+
+**Platform Skills** — <https://github.com/nitinjain999/platform-skills>
+
+A broad platform-engineering handbook covering Kubernetes, AWS, Terraform, Helm,
+Argo CD, Flux, GitHub Actions, OPA/Rego, Karpenter, KEDA, supply-chain security,
+Falco, and observability. Review its preflight, platform-review, incident-debug,
+and deployment-hardening workflows for ideas to add here.
+
+### GitHub
+
+**Official GitHub MCP Server** — <https://github.com/github/github-mcp-server/>
+
+GitHub-maintained integration for repository contents, code search, issues, pull
+requests, reviews, and Actions metadata. Potential uses include `/review-pr`,
+`/environment-drift`, `/github-actions-audit`, and `/onboard-service`.
+
+### Suggested Build Order
+
+1. Add a read-only `/eks-investigate` mode to the existing Kubernetes triage flow.
+2. Add `/review-platform-change` for Terraform, Helm, Kubernetes, and GitHub Actions.
+3. Add `/environment-drift` to compare Git, AWS, and cluster state without mutation.
+4. Add `/onboard-service` with an EKS golden path, GitHub Actions, Helm, GitOps,
+   IAM/OIDC, observability, and rollback artifacts.
+5. Add approval-gated mutation only after dry-run, audit, and rollback behavior is
+   well-defined.
+
+---
+
 ## Platform Engineering
 
 **`/onboard-service`**
