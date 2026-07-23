@@ -19,29 +19,33 @@ A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) pur
 ## Architecture
 
 ```
-.claude/skills/          ← Claude Code slash commands (UX layer)
-    review-terraform/
-    write-adr/
-    explain-k8s-error/
-    gen-chart/
-    write-runbook/
-    make-ticket/
-    pr-description/
-    project-proposal/
-    make-presentation/
+.claude/skills/              ← Claude Code slash commands
+    explain-k8s-error/       ← Kubernetes investigation
+    gen-chart/               ← Helm/Kustomize generation
+    gen-dashboard/           ← Grafana dashboard generation
+    make-presentation/       ← Slidev presentation generation
+    make-ticket/             ← Jira ticket generation
+    pr-description/          ← Pull request descriptions
+    project-proposal/        ← Project proposals
+    review-terraform/        ← Terraform plan review
+    write-adr/               ← Architecture decision records
+    write-runbook/           ← Incident runbooks
 
-templates/               ← shared output templates, referenced by skills
-    adr.md
-    jira-ticket.md
-    project-proposal.md
-    pull-request.md
-    runbook.md
-    presentation.md
+templates/                  ← Shared output templates
+scripts/lint-skills.py       ← Structural validation
+.github/workflows/lint.yml   ← CI validation
 ```
 
-Every skill uses live shell injection (`` !`command` ``) and `$ARGUMENTS` — no dependencies, just Claude. Skills that produce structured output pull their format from a shared file in `templates/` via `` !`cat ~/.claude/templates/<name>.md` ``, keeping templates centralized and independently editable.
+Skills use Claude Code's `$ARGUMENTS`, live shell injection where needed, and
+shared templates for structured output. The repository includes a structural
+validator that checks skill metadata, required documentation, and template
+references on every pull request.
 
-**Browser-driven skills** drive a real Chrome tab (via the Claude in Chrome MCP) so Claude can *see* a rendered UI and tune it with you — e.g. `gen-dashboard` checking a Grafana render. These need the browser extension + MCP connected and declare their tools in `allowed-tools`. See [`docs/browser-driven-skills.md`](docs/browser-driven-skills.md).
+**Browser-driven skills** drive a real Chrome tab (via the Claude in Chrome MCP)
+so Claude can *see* a rendered UI and tune it with you — for example,
+`gen-dashboard` checks a Grafana render. These need the browser extension and
+MCP connected and declare their tools in `allowed-tools`. See
+[`docs/browser-driven-skills.md`](docs/browser-driven-skills.md).
 
 ## Installation
 
@@ -63,9 +67,13 @@ cp -r templates/* ~/.claude/templates/
 
 ```bash
 cp -r .claude/skills/write-adr ~/.claude/skills/
-# plus any template that skill references, e.g.:
-cp templates/adr.md ~/.claude/templates/
 ```
+
+### Dependencies
+
+The skills themselves do not require a separate runtime or package installation.
+Browser-driven skills additionally require the Claude in Chrome extension and
+MCP server; see [`docs/browser-driven-skills.md`](docs/browser-driven-skills.md).
 
 ## Usage
 
@@ -78,7 +86,10 @@ Once installed, invoke any skill from within Claude Code:
 /gen-chart "a nodejs api with HPA, PDB, and external secret"
 /write-runbook "payments service p99 latency spike at 3pm"
 /pr-description
+/project-proposal "centralize platform observability"
+/make-ticket "add a PDB to the payments service"
 /make-presentation "infra prio and planning — k8s, waf status, neo migration, roadmap"
+/gen-dashboard "payments-api nodejs"
 ```
 
 ## Skill Reference
