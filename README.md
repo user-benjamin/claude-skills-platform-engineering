@@ -1,6 +1,6 @@
 # platform-engineer-skills
 
-A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) purpose-built for platform engineers. Two layers: slash commands as the UX, Claude API agents as the engine for complex workflows.
+A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) purpose-built for platform engineers. The skills provide reusable workflows for infrastructure review, Kubernetes operations, observability, incident response, and engineering documentation.
 
 ## What's Inside
 
@@ -19,26 +19,33 @@ A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) pur
 ## Architecture
 
 ```
-.claude/skills/          ← Claude Code slash commands (UX layer)
-    review-terraform/
-    write-adr/
-    explain-k8s-error/
-    gen-helm-chart/
-    incident-runbook/
-    pr-description/
-    make-presentation/
+.claude/skills/              ← Claude Code slash commands
+    explain-k8s-error/       ← Kubernetes investigation
+    gen-chart/               ← Helm/Kustomize generation
+    gen-dashboard/           ← Grafana dashboard generation
+    make-presentation/       ← Slidev presentation generation
+    make-ticket/             ← Jira ticket generation
+    pr-description/          ← Pull request descriptions
+    project-proposal/        ← Project proposals
+    review-terraform/        ← Terraform plan review
+    write-adr/               ← Architecture decision records
+    write-runbook/           ← Incident runbooks
 
-agents/                  ← Claude API agents (engine for complex skills)
-    terraform_reviewer.py
-    adr_writer.py
-    runbook_generator.py
+templates/                  ← Shared output templates
+scripts/lint-skills.py       ← Structural validation
+.github/workflows/lint.yml   ← CI validation
 ```
 
-**Simple skills** use live shell injection (`` !`command` ``) and `$ARGUMENTS` — no dependencies, just Claude.
+Skills use Claude Code's `$ARGUMENTS`, live shell injection where needed, and
+shared templates for structured output. The repository includes a structural
+validator that checks skill metadata, required documentation, and template
+references on every pull request.
 
-**Complex skills** shell out to `agents/` Python scripts that call the Claude API directly for structured, multi-step output.
-
-**Browser-driven skills** drive a real Chrome tab (via the Claude in Chrome MCP) so Claude can *see* a rendered UI and tune it with you — e.g. `gen-dashboard` checking a Grafana render. These need the browser extension + MCP connected and declare their tools in `allowed-tools`. See [`docs/browser-driven-skills.md`](docs/browser-driven-skills.md).
+**Browser-driven skills** drive a real Chrome tab (via the Claude in Chrome MCP)
+so Claude can *see* a rendered UI and tune it with you — for example,
+`gen-dashboard` checks a Grafana render. These need the browser extension and
+MCP connected and declare their tools in `allowed-tools`. See
+[`docs/browser-driven-skills.md`](docs/browser-driven-skills.md).
 
 ## Installation
 
@@ -59,12 +66,11 @@ cp -r templates ~/.claude/templates/
 cp -r .claude/skills/write-adr ~/.claude/skills/
 ```
 
-### Agent dependencies (for complex skills)
+### Dependencies
 
-```bash
-pip install anthropic
-export ANTHROPIC_API_KEY=your-key-here
-```
+The skills themselves do not require a separate runtime or package installation.
+Browser-driven skills additionally require the Claude in Chrome extension and
+MCP server; see [`docs/browser-driven-skills.md`](docs/browser-driven-skills.md).
 
 ## Usage
 
@@ -74,10 +80,13 @@ Once installed, invoke any skill from within Claude Code:
 /write-adr "why we chose Karpenter over Cluster Autoscaler"
 /review-terraform
 /explain-k8s-error "OOMKilled on pod payments-7d9f"
-/gen-helm-chart "a nodejs api with HPA, PDB, and external secret"
-/incident-runbook "payments service p99 latency spike at 3pm"
+/gen-chart "a nodejs api with HPA, PDB, and external secret"
+/write-runbook "payments service p99 latency spike at 3pm"
 /pr-description
+/project-proposal "centralize platform observability"
+/make-ticket "add a PDB to the payments service"
 /make-presentation "infra prio and planning — k8s, waf status, neo migration, roadmap"
+/gen-dashboard "payments-api nodejs"
 ```
 
 ## Skill Reference
