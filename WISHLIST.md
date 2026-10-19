@@ -165,3 +165,10 @@ Review an open PR for a platform engineering lens — security, cost, reliabilit
 
 **`/doc-module`**
 Generate a README for a Terraform module from its `variables.tf` and `outputs.tf`.
+
+---
+
+## Professional Development
+
+**`/i-love-me`**
+The digital "I love me" binder. In the Army you keep a binder of every award, evaluation, counseling statement and certificate, so at evaluation time you argue from evidence instead of memory. This skill does the same for engineering work. On a monthly cadence it crawls the systems you already work in (Jira, Confluence, Slack, GitHub PRs and reviews, incident write-ups, cost reports) for what you did since the last run, and files each item as an evidence-backed entry: what you did, the measured result, links to the ticket or PR, and who else contributed. Before a performance review, it assembles the binder into a self-assessment draft organized by your review's competencies: wins with numbers, recognition quotes from teammates, and the feedback you received and what you changed because of it. Ground rules: read-only everywhere, measured results only (no estimate presented as an outcome), and contribution stated precisely ("helped build" is not "built"). Implementation sketch: one entry file per run plus a state file holding the last-crawled date so runs are incremental, and a mechanical leak check (account IDs, internal hostnames, tokens) before anything is exported or shared.
