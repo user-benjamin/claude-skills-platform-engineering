@@ -1,6 +1,6 @@
 # claude-skills-platform-engineering
 
-A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) purpose-built for platform engineers. Every skill today is a slash command driven by live shell injection — no dependencies, just Claude. A Claude API agent layer for complex multi-step workflows is planned; see [Roadmap](#roadmap).
+A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) purpose-built for platform engineers. Every skill today is a slash command, and most need nothing but Claude — see [Dependencies](#dependencies) for the exceptions. A Claude API agent layer for complex multi-step workflows is planned; see [Roadmap](#roadmap).
 
 ## What's Inside
 
@@ -15,6 +15,7 @@ A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) pur
 | Project Proposal | `/project-proposal` | Generates a structured project proposal with executive summary, goals, metrics, timeline, risks, and stakeholders |
 | Presentation Maker | `/make-presentation` | Creates a complete Slidev presentation from a topic outline — slides, speaker script, diagrams, real code examples — ready to `npm run dev` |
 | Dashboard Generator | `/gen-dashboard` | Generates a Grafana dashboard (RED metrics + K8s resource panels) for a service, then opens it in your logged-in Grafana and tunes it against the live render. First browser-driven skill — needs the Claude in Chrome MCP for the visual check. |
+| Contribution Binder | `/i-love-me` | Monthly, evidence-backed record of your contributions to your team and company, crawled from whatever work systems you've connected (tracker, docs, chat, code, incidents, cost). Assembles it into a self-assessment draft at review time. Read-only; full detail stays on your machine, with an optional sanitized copy in a private repo. |
 
 ## Architecture
 
@@ -23,6 +24,7 @@ A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) pur
     explain-k8s-error/       ← Kubernetes investigation
     gen-chart/               ← Helm/Kustomize generation
     gen-dashboard/           ← Grafana dashboard generation
+    i-love-me/               ← Monthly contribution record for reviews
     make-presentation/       ← Slidev presentation generation
     make-ticket/             ← Jira ticket generation
     pr-description/          ← Pull request descriptions
@@ -71,7 +73,8 @@ cp -r .claude/skills/write-adr ~/.claude/skills/
 
 ### Dependencies
 
-The skills themselves do not require a separate runtime or package installation.
+Most skills do not require a separate runtime or package installation.
+`/i-love-me` runs a stdlib-only Python 3 script for its leak check.
 Browser-driven skills additionally require the Claude in Chrome extension and
 MCP server; see [`docs/browser-driven-skills.md`](docs/browser-driven-skills.md).
 
@@ -90,6 +93,7 @@ Once installed, invoke any skill from within Claude Code:
 /make-ticket "add a PDB to the payments service"
 /make-presentation "infra prio and planning — k8s, waf status, neo migration, roadmap"
 /gen-dashboard "payments-api nodejs"
+/i-love-me
 ```
 
 ## Skill Reference
