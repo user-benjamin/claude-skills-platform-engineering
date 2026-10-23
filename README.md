@@ -9,6 +9,7 @@ A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) pur
 | Terraform Reviewer | `/review-terraform` | Reviews a terraform plan — categorizes changes as routine, worth reviewing, or destructive surprises (changes Terraform shows as updates but that actually destroy resources). Uses web search to verify provider-specific ForceNew behavior. |
 | ADR Writer | `/write-adr` | Interviews you, then writes a fully populated Architecture Decision Record to `docs/adr/` |
 | K8s Triage | `/explain-k8s-error` | Live cluster investigation — reads local Helm values, runs non-destructive kubectl commands, explains every finding with reasoning and docs links. Never takes destructive actions autonomously. |
+| WAF Triage | `/explain-waf` | Live WAF/ALB investigation — determines whether a blocked request was stopped by the WAF or the app, pulls the exact terminating rule and matched pattern from WAF logs, and checks whether the block is specific to that request or affects everyone on that path. Read-only, never modifies WAF/ALB config. |
 | Chart Generator | `/gen-chart` | Generates a production-grade Helm chart or Kustomize manifests. Scans repo for context, asks before assuming, walks through component selection with caveats, then writes files to disk. |
 | Runbook Writer | `/write-runbook` | Reviews the current debugging/incident session and distills it into a reusable runbook |
 | PR Description | `/pr-description` | Combines live `git diff` with conversation context to write a PR description. Uses repo template if one exists, otherwise falls back to standard summary/problem/acceptance criteria/testing structure. |
@@ -22,6 +23,7 @@ A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) pur
 ```
 .claude/skills/              ← Claude Code slash commands
     explain-k8s-error/       ← Kubernetes investigation
+    explain-waf/             ← WAF/ALB investigation
     gen-chart/               ← Helm/Kustomize generation
     gen-dashboard/           ← Grafana dashboard generation
     i-love-me/               ← Monthly contribution record for reviews
@@ -86,6 +88,7 @@ Once installed, invoke any skill from within Claude Code:
 /write-adr "why we chose Karpenter over Cluster Autoscaler"
 /review-terraform
 /explain-k8s-error "OOMKilled on pod payments-7d9f"
+/explain-waf "76.234.106.156 around 11:30-12:30 EST on 2026-07-31"
 /gen-chart "a nodejs api with HPA, PDB, and external secret"
 /write-runbook "payments service p99 latency spike at 3pm"
 /pr-description
